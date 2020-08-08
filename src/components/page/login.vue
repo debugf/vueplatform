@@ -2,7 +2,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login" v-if="two">
-            <div class="ms-title">测试平台</div>
+            <div class="ms-title">自动化测试平台</div>
             <el-form :model="loginParam" :rules="rules" ref="loginForm" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="loginParam.username" placeholder="用户名" prefix-icon="el-icon-user">
@@ -20,7 +20,7 @@
             </el-form>
         </div>
         <div class="ms-login" v-else>
-            <div class="ms-title">测试平台</div>
+            <div class="ms-title">自动化测试平台</div>
             <el-form :model="registerParam" :rules="rules" ref="registerForm" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="registerParam.username" placeholder="用户名" prefix-icon="el-icon-user">
@@ -124,6 +124,15 @@ export default {
             this.$message.error('找个锤子。');
         },
     },
+    created() {
+        let that = this;
+        document.onkeydown =function(e){
+        e = window.event || e;
+        if(that.$route.path=='/'&&(e.code=='Enter'||e.code=='enter')){//验证在登录界面和按得键是回车键enter
+            that.submitLoginForm('loginForm');//登录函数
+        }
+        }
+    }
 };
 </script>
 
