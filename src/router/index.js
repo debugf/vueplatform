@@ -27,6 +27,12 @@ export default new Router({
           component: () => import('../components/page/Dashboard.vue'),
           meta: { title: '系统首页' }
         },
+        {
+          // 项目管理页
+          path: '/project',
+          component: () => import('../components/page/ProjectsList.vue'),
+          meta: { title: '项目管理' }
+        },
       ]
   }
   ]

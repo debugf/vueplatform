@@ -17,9 +17,7 @@
                 :data="tableData"
                 border
                 class="table"
-                ref="multipleTable"
                 header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
@@ -28,7 +26,6 @@
                 <el-table-column prop="leader" label="项目负责人" width="100" align="center"></el-table-column>
                 <el-table-column prop="programer" label="开发人员" align="center"></el-table-column>
                 <el-table-column prop="tester" label="测试人员" align="center"></el-table-column>
-                <el-table-column prop="create_time" label="创建时间" align="center"></el-table-column>
                 <el-table-column prop="desc" label="简要描述" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -141,7 +138,10 @@
 </template>
 
 <script>
-// import { projects_list } from '../../api/api';
+import { projects_list,
+         add_projects,
+          
+        } from '../../api/api';
 // import { edit_project } from '../../api/api';
 // import { add_projects } from '../../api/api';
 // import { delete_project } from '../../api/api';
@@ -157,7 +157,6 @@ export default {
             },
             tableData: [],
             envs: [],
-            multipleSelection: [],
             delList: [],
             addProjectModel: false,
             editVisible: false,
@@ -178,8 +177,8 @@ export default {
         getData() {
             projects_list(this.query)
                 .then(response => {
-                    this.tableData = response.data.results;
-                    this.pageTotal = response.data.count
+                    this.tableData = response.data.details.records;
+                    this.pageTotal = response.data.details.total
 
                 })
                 .catch(error => {
@@ -236,15 +235,10 @@ export default {
                 .then(() => {
                     delete_project(this.project_id)
                     .then(response => {
-                        console.log(response.data)
                         this.$message.success(`删除成功: ${this.project_name}`);
                         this.tableData.splice(index, 1);
                     }).catch(error => {});
                 }).catch(() => {});
-        },
-        // 多选操作
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
         },
         // 编辑操作
         handleEdit(index, row) {
@@ -268,15 +262,15 @@ export default {
         // 新增项目
         saveAdd(){
             add_projects(this.form)
-            .then(response => {
-                this.addProjectModel = false;
-                this.$message.success(`添加成功：${this.form.name}`);
-                this.getData();
-                this.$set(this.tableData, this.project_idx, this.form);
-            })
-            .catch(error => {
-                this.$message.error("所有字段为必填项");
-            })
+                .then((response) => {
+                    this.$message.success(`添加成功：${this.form.name}`);
+                    this.addProjectModel = false;
+                    this.getData();
+                    this.$set(this.tableData, this.project_idx, this.form);
+                })
+                .catch(error => {
+                    this.$message.error("所有字段为必填项");
+                })
         },
 
         // 分页导航
@@ -316,5 +310,8 @@ export default {
     margin: auto;
     width: 40px;
     height: 40px;
+}
+.el-button+.el-button{
+    margin-left: 0px;
 }
 </style>

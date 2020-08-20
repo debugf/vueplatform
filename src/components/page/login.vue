@@ -82,18 +82,18 @@ export default {
             this.$refs[formName].validate(valid => {
                 if (valid) {
                     login(this.loginParam)
-                    .then((response)=> {
-                        sessionStorage.clear();
-                        sessionStorage.setItem('token', response.data.details.token);
-                        localStorage.setItem('token', response.data.details.token);
-                        localStorage.setItem('id', response.data.details.id);
-                        localStorage.setItem('username',response.data.details.username);
-                        this.$message.success('登录成功');
-                        this.$router.push('/home');
-                    })
-                    .catch(error => {
-                        this.$message.error('用户名或密码错误');
-                    });
+                        .then((response)=> {
+                            sessionStorage.clear();
+                            sessionStorage.setItem('token', response.data.details.token);
+                            localStorage.setItem('token', response.data.details.token);
+                            localStorage.setItem('id', response.data.details.id);
+                            localStorage.setItem('username',response.data.details.username);
+                            this.$message.success('登录成功');
+                            this.$router.push('/home');
+                        })
+                        .catch(error => {
+                            this.$message.error('用户名或密码错误');
+                        });
                 } else {
                     this.$message.error('请输入账号和密码');
                     return false;

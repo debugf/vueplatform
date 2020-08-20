@@ -62,6 +62,11 @@ export default {
                     index: '/dashboard',
                     title: '系统首页'
                 },
+                {
+                    icon: 'el-icon-s-cooperation',
+                    index: '/project',
+                    title: '项目管理'
+                },
             ]
         };
     },
